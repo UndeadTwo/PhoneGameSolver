@@ -93,7 +93,7 @@ double tokenApplier(double sum, token tkn) {
 }
 
 void tokenPrint(token tkn) {
-	printf("%s Value:%d ", tokenFunctionString(tkn), tkn.value);
+	printf("%s Value:%d \n", tokenFunctionString(tkn), tkn.value);
 }
 
 char* tokenFunctionString(token tkn) {
@@ -137,11 +137,11 @@ char* tokenFunctionString(token tkn) {
 }
 
 double addDigits(double sum, double digits) {
-	return sum * pow(10,log10(digits)) + digits;
+	return sum * pow(10,log10(digits) + 1) + digits;
 }
 
 double removeDigit(double sum) {
-	return sum * 0.1;
+	return sum * floor(0.1);
 }
 
 double reverseDigits(double sum) {

@@ -32,14 +32,21 @@ void getAllAnswers(token* set, int tokenCount, int k, int start, int goal) {
 void getAllAnswersRec(token* set, token* tokenSet, int n, int k, int m, int start, int goal) {
     if (k == 0) {
     	double sum = (double)start;
+        // printf("Start:\n");
        	for(int i = 0; i < m; i++) {
+          // tokenPrint(tokenSet[i]);
        		sum = tokenApplier(sum, tokenSet[i]);
+          // printf("%f\n",sum);
        	}
+        // printf("End\n");
 
       if(sum == goal) {
+        sum = (double)start;
         printf("Start:\n");
         for(int i = 0; i < m; i++) {
           tokenPrint(tokenSet[i]);
+          sum = tokenApplier(sum, tokenSet[i]);
+          printf("%f\n",sum);
         }
         printf("End\n");
       }
