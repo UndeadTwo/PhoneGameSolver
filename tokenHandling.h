@@ -21,6 +21,9 @@ typedef struct {
 
 void reverse_string(char *str);
 char* tokenFunctionString(token tkn);
+double addDigits(double sum, double digits);
+double removeDigit(double sum);
+double reverseDigits(double sum);
 
 token tokenBuilder(char* tokenString) {
 
@@ -75,104 +78,80 @@ double tokenApplier(double sum, token tkn) {
 	}
 
 	if(tkn.func == ADDDIGIT) {
-		int bufferSize = (int)(ceil(log10(sum)) + 3 + ceil(log10(tkn.value)) + 3);
-		char buffer[bufferSize];
-
-		snprintf(buffer, bufferSize, "%f%d", sum, tkn.value);
-
-		return atof(buffer);
+		return addDigits(sum, (double)tkn.value);
 	}
 
 	if(tkn.func == REMOVEDIGIT) {
-		int bufferSize = (int)(ceil(log10(sum)) + 3);
-		char buffer[bufferSize];
-
-		snprintf(buffer, bufferSize, "%f", sum);
-
-		return atof(buffer);
+		return removeDigit(sum);
 	}
 
 	if(tkn.func == REVERSE) {
-		int bufferSize = (int)(ceil(log10(sum)) + 1);
-		char buffer[bufferSize];
-		snprintf(buffer, bufferSize, "%d", (int)sum);
-		reverse_string(buffer);
-		return atof(buffer);
+		return reverseDigits(sum);
 	}
 
 	return sum;
 }
 
 void tokenPrint(token tkn) {
-	printf("%s Value:%d\n", tokenFunctionString(tkn), tkn.value);
+	printf("%s Value:%d ", tokenFunctionString(tkn), tkn.value);
 }
 
 char* tokenFunctionString(token tkn) {
+	char* result;
+
+	result = "NULL";
+
 	if(tkn.func == NEGATE) {
-		return "NEGATE";
+		result = "NEGATE";
 	}
 
 	if(tkn.func == ADDDIGIT) {
-		return "ADDDIGIT";
+		result = "ADDDIGIT";
 	}
 
 	if(tkn.func == REMOVEDIGIT) {
-		return "REMOVEDIGIT";
+		result = "REMOVEDIGIT";
 	}
 
 	if(tkn.func == ADD) {
-		return "ADD";
+		result = "ADD";
 	}
 
 	if(tkn.func == SUBTRACT) {
-		return "SUBTRACT";
+		result = "SUBTRACT";
 	}
 
 	if(tkn.func == MULTIPLY) {
-		return "MULTIPLY";
+		result = "MULTIPLY";
 	}
 
 	if(tkn.func == DIVIDE) {
-		return "DIVIDE";
+		result = "DIVIDE";
 	}
 
 	if(tkn.func == REVERSE) {
-		return "REVERSE";
+		result = "REVERSE";
 	}
 
-	return "NULL";
+	return result;
 }
 
-// From: https://stackoverflow.com/questions/784417/reversing-a-string-in-c
-void reverse_string(char *str)
-{
-    /* skip null */
-    if (str == 0)
-    {
-        return;
-    }
+double addDigits(double sum, double digits) {
+	return sum * pow(10,log10(digits)) + digits;
+}
 
-    /* skip empty string */
-    if (*str == 0)
-    {
-        return;
-    }
+double removeDigit(double sum) {
+	return sum * 0.1;
+}
 
-    /* get range */
-    char *start = str;
-    char *end = start + strlen(str) - 1; /* -1 for \0 */
-    char temp;
+double reverseDigits(double sum) {
+	int number = (int)sum;
+	double reverse = 0;
 
-    /* reverse */
-    while (end > start)
-    {
-        /* swap */
-        temp = *start;
-        *start = *end;
-        *end = temp;
-
-        /* move */
-        ++start;
-        --end;
-    }
+	while(number > 0) {
+		int lastDigit = (int)number % 10;
+		reverse = reverse * 10 + lastDigit;
+		number /= 10;
+	}
+	return reverse;
 }
